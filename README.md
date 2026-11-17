@@ -1,38 +1,37 @@
-# AutoViral Local
+# AutoViral AI — Local Dashboard
 
-Free, open-source, local Windows video-to-shorts app. No subscription, cloud hosting, account or API key needed.
+Free local video-to-Shorts dashboard. No login, subscription or paid AI service. The frontend and processing backend run on your own computer.
 
-## Windows setup
+## Quick start on Windows
 
-1. Install Python 3.11 or 3.12 from https://www.python.org/downloads/windows/ and check **Add Python to PATH**.
-2. Open PowerShell and run `winget install --id Gyan.FFmpeg -e`. Close and reopen PowerShell. Test with `ffmpeg -version`.
-3. On this repository, click **Code > Download ZIP**, then extract it to a normal folder (for example, Desktop).
-4. Double-click `setup_windows.bat` once. This creates a virtual environment and installs dependencies; it requires internet initially.
-5. Double-click `START_WINDOWS.bat`; the browser should open at http://127.0.0.1:7860.
-6. Upload an MP4/MOV file that you own or have permission to edit. Enter a short prompt, select clip count and duration, then click **Make my Shorts**.
-7. Preview and download the clips. Outputs are also saved in the `outputs/` folder.
+1. Install Python 3.11 or 3.12 from https://www.python.org/downloads/windows/ (enable Add Python to PATH).
+2. Install FFmpeg in PowerShell using `winget install --id Gyan.FFmpeg -e`. Close/reopen PowerShell and check `ffmpeg -version`.
+3. Download ZIP of this repository via GitHub **Code > Download ZIP** and extract.
+4. Double-click **setup_windows.bat** once. It creates `.venv` and installs packages; the initial setup and first Whisper download need Internet.
+5. Double-click **START_WINDOWS.bat**. The dashboard opens at http://127.0.0.1:7860.
+6. Paste an authorized *direct link to an MP4/MOV/WebM/MKV video file* and press Enter, or select the Upload tab and choose a local video. Set clip count and style. The backend automatically processes it and exports Shorts, downloadable in the dashboard and saved under `outputs/`.
 
-First test: use a 1–5-minute video; set 1 clip, 30 seconds, and Whisper model `tiny`. If transcription is slow or unavailable, untick **Use AI speech transcription**.
+**Important:** YouTube watch links, TikTok watch links, and general video webpage links are not currently supported. Those require an authorized import flow; the app does not download arbitrary platform videos.
 
-## Features
-- Local video upload, no arbitrary YouTube video downloads
-- FFmpeg real 9:16 video export with audio, centered crop or fit
-- Audio-energy highlight selection
-- Optional local faster-whisper transcription and prompt-keyword scoring
-- 1–5 clips per video, rough titles, social captions and hashtags
-- Timestamp/transcript JSON output
+## What is automatic?
+- Download authorized public direct video-file URLs (up to 1GB)
+- Detect candidate highlights using audio activity, plus optional local faster-whisper transcript scoring
+- Create 1–5 vertical MP4 clips and accompanying title/caption ideas
+- Show the first clip and offer finished-file downloads
 
 ## Limitations
-This is a basic MVP, not a human-level automatic editor. It does not yet track faces, create reaction/gameplay split screens, visually overlay credits/subtitles, add effects, or publish to social media. Scores do not predict virality. Creator credit is stored in metadata only.
+This is a starter MVP: no professional scene understanding, face-aware cropping, reaction/gameplay split-screen, visible credit text, or automatic platform publishing. Prompts guide basic selection, not all edit operations. The computer must be running while processing. Large videos will be slow on CPU.
 
-Long recordings can take considerable CPU time. The Whisper model downloads on first use, but later runs can work offline. Videos and processed files stay on your machine, under `outputs/`.
+Creator credit is saved in MP4 metadata only, not rendered on-screen.
 
 ## Troubleshooting
-- Python launcher missing: reinstall Python with PATH enabled.
-- FFmpeg missing: run the winget command, then restart the terminal.
-- Whisper installation problem: try `.venv\Scripts\python.exe -m pip install faster-whisper` or disable speech transcription.
-- Export fails: check disk space and `ffmpeg -encoders` for `libx264`.
-- Videos without audio are not well supported by the audio-ranking engine.
+If you previously installed this app, rerun `setup_windows.bat` to get the new dashboard dependencies. If FFmpeg cannot be found, reboot terminal/PC after installation. If transcription fails, untick the Whisper checkbox and try again.
+
+## Files
+- `dashboard.py`: local paste-first dashboard and download handler
+- `app.py`: audio/transcript selection and FFmpeg rendering engine
+- `setup_windows.bat`: one-time setup
+- `START_WINDOWS.bat`: start dashboard
 
 ## License
-MIT — see LICENSE.
+MIT (see LICENSE).
